@@ -10,6 +10,8 @@
     <table>
         <thead>
             <tr>
+                <th>Kode</th>
+                <th>Kategori</th>
                 <th>Judul</th>
                 <th>Lokasi</th>
                 <th>Mulai</th>
@@ -22,6 +24,8 @@
         <tbody>
             @forelse ($activities as $activity)
                 <tr>
+                    <td>{{ $activity->code }}</td>
+                    <td>{{ $activity->category->name }}</td>
                     <td>{{ $activity->title }}</td>
                     <td>{{ $activity->location }}</td>
                     <td>{{ $activity->start_at->format('d M Y H:i') }}</td>
@@ -40,7 +44,7 @@
                 </tr>
             @empty
                 <tr>
-                    <td colspan="7">Belum ada kegiatan.</td>
+                    <td colspan="9">Belum ada kegiatan.</td>
                 </tr>
             @endforelse
         </tbody>

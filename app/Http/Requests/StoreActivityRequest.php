@@ -23,6 +23,8 @@ class StoreActivityRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'category_id' => ['required', 'integer', 'exists:categories,id'],
+            'code' => ['required', 'string', 'max:30', 'unique:activities,code'],
             'title' => ['required', 'string', 'max:150'],
             'description' => ['nullable', 'string'],
             'location' => ['required', 'string', 'max:150'],

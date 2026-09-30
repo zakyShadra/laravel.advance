@@ -1,4 +1,21 @@
 <div class="form-group">
+    <label for="category_id">Kategori</label>
+    <select name="category_id" id="category_id">
+        <option value="">-- Pilih Kategori --</option>
+        @foreach ($categories as $category)
+            <option value="{{ $category->id }}" @selected((int) old('category_id', $activity->category_id ?? '') === $category->id)>
+                {{ $category->name }}
+            </option>
+        @endforeach
+    </select>
+</div>
+
+<div class="form-group">
+    <label for="code">Kode Kegiatan</label>
+    <input type="text" name="code" id="code" value="{{ old('code', $activity->code ?? '') }}">
+</div>
+
+<div class="form-group">
     <label for="title">Judul</label>
     <input type="text" name="title" id="title" value="{{ old('title', $activity->title ?? '') }}">
 </div>

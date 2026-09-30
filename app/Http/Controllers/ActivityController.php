@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreActivityRequest;
 use App\Http\Requests\UpdateActivityRequest;
 use App\Models\Activity;
+use App\Models\Category;
 use App\Services\ActivityService;
 
 class ActivityController extends Controller
@@ -18,7 +19,7 @@ class ActivityController extends Controller
      */
     public function index()
     {
-        $activities = Activity::latest()->paginate(10);
+        $activities = Activity::with('category')->latest()->paginate(10);
 
         return view('activities.index', compact('activities'));
     }
@@ -28,7 +29,9 @@ class ActivityController extends Controller
      */
     public function create()
     {
-        return view('activities.create');
+        $categories = Category::all();
+
+        return view('activities.create', compact('categories'));
     }
 
     /**
@@ -56,7 +59,9 @@ class ActivityController extends Controller
      */
     public function edit(Activity $activity)
     {
-        return view('activities.edit', compact('activity'));
+        $categories = Category::all();
+
+        return view('activities.edit', compact('activity', 'categories'));
     }
 
     /**

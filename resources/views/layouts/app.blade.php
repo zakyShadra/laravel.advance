@@ -30,6 +30,7 @@
 <body>
     <header>
         <a href="{{ route('activities.index') }}">Manajemen Kegiatan</a>
+        <a href="{{ route('categories.index') }}" style="float:right;">Kategori</a>
     </header>
     <main>
         @if (session('success'))

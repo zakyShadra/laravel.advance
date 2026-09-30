@@ -6,6 +6,8 @@
     <h1>{{ $activity->title }}</h1>
 
     <table>
+        <tr><th>Kode</th><td>{{ $activity->code }}</td></tr>
+        <tr><th>Kategori</th><td>{{ $activity->category->name }}</td></tr>
         <tr><th>Deskripsi</th><td>{{ $activity->description ?: '-' }}</td></tr>
         <tr><th>Lokasi</th><td>{{ $activity->location }}</td></tr>
         <tr><th>Mulai</th><td>{{ $activity->start_at->format('d M Y H:i') }}</td></tr>

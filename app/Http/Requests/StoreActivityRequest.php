@@ -31,7 +31,8 @@ class StoreActivityRequest extends FormRequest
             'start_at' => ['required', 'date'],
             'end_at' => ['required', 'date', 'after_or_equal:start_at'],
             'capacity' => ['required', 'integer', 'min:1', 'max:500'],
-            'status' => ['required', 'in:draft,published,completed'],
+            // status sengaja tidak divalidasi di sini: kegiatan baru selalu draft,
+            // transisi berikutnya ditentukan ActivityService, bukan input form.
         ];
     }
 }

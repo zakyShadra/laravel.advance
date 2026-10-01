@@ -18,6 +18,23 @@
 
     <div style="margin-top: 1rem;">
         <a href="{{ route('activities.edit', $activity) }}" class="btn btn-edit">Edit</a>
+
+        @if ($activity->status === 'draft')
+            <form action="{{ route('activities.publish', $activity) }}" method="POST" style="display:inline;">
+                @csrf
+                @method('PATCH')
+                <button type="submit" class="btn btn-primary">Publish</button>
+            </form>
+        @endif
+
+        @if ($activity->status === 'published')
+            <form action="{{ route('activities.complete', $activity) }}" method="POST" style="display:inline;">
+                @csrf
+                @method('PATCH')
+                <button type="submit" class="btn btn-primary">Selesaikan</button>
+            </form>
+        @endif
+
         <a href="{{ route('activities.index') }}" class="btn btn-secondary">Kembali</a>
     </div>
 @endsection

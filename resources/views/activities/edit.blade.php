@@ -5,6 +5,8 @@
 @section('content')
     <h1>Edit Kegiatan</h1>
 
+    <p>Status saat ini: <span class="status-{{ $activity->status }}">{{ ucfirst($activity->status) }}</span>. Ubah status lewat tombol Publish/Selesaikan di halaman detail, bukan lewat form ini.</p>
+
     <form action="{{ route('activities.update', $activity) }}" method="POST">
         @csrf
         @method('PUT')

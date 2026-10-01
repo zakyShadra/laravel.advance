@@ -32,7 +32,7 @@ class UpdateActivityRequest extends FormRequest
             'start_at' => ['required', 'date'],
             'end_at' => ['required', 'date', 'after_or_equal:start_at'],
             'capacity' => ['required', 'integer', 'min:1', 'max:500'],
-            'status' => ['required', 'in:draft,published,completed'],
+            // status tidak diubah lewat form edit umum, lihat ActivityService::publish()/complete().
         ];
     }
 }

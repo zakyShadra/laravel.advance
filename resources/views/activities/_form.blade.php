@@ -44,14 +44,3 @@
     <label for="capacity">Kapasitas</label>
     <input type="number" name="capacity" id="capacity" min="1" max="500" value="{{ old('capacity', $activity->capacity ?? '') }}">
 </div>
-
-<div class="form-group">
-    <label for="status">Status</label>
-    <select name="status" id="status">
-        @foreach (['draft', 'published', 'completed'] as $status)
-            <option value="{{ $status }}" @selected(old('status', $activity->status ?? 'draft') === $status)>
-                {{ ucfirst($status) }}
-            </option>
-        @endforeach
-    </select>
-</div>

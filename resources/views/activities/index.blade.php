@@ -7,6 +7,50 @@
 
     <a href="{{ route('activities.create') }}" class="btn btn-primary">+ Tambah Kegiatan</a>
 
+    <form action="{{ route('activities.index') }}" method="GET" style="display:flex; gap:.5rem; flex-wrap:wrap; align-items:end; margin:1rem 0;">
+        <div class="form-group" style="flex:1; min-width:160px;">
+            <label for="search">Cari</label>
+            <input type="text" name="search" id="search" value="{{ request('search') }}" placeholder="Kode atau judul">
+        </div>
+
+        <div class="form-group" style="min-width:160px;">
+            <label for="category_id">Kategori</label>
+            <select name="category_id" id="category_id">
+                <option value="">Semua Kategori</option>
+                @foreach ($categories as $category)
+                    <option value="{{ $category->id }}" @selected(request('category_id') == $category->id)>
+                        {{ $category->name }}
+                    </option>
+                @endforeach
+            </select>
+        </div>
+
+        <div class="form-group" style="min-width:140px;">
+            <label for="status">Status</label>
+            <select name="status" id="status">
+                <option value="">Semua Status</option>
+                @foreach (['draft', 'published', 'completed'] as $status)
+                    <option value="{{ $status }}" @selected(request('status') === $status)>
+                        {{ ucfirst($status) }}
+                    </option>
+                @endforeach
+            </select>
+        </div>
+
+        <div class="form-group" style="min-width:140px;">
+            <label for="sort">Urutkan</label>
+            <select name="sort" id="sort">
+                <option value="newest" @selected(request('sort', 'newest') === 'newest')>Mulai Terbaru</option>
+                <option value="oldest" @selected(request('sort') === 'oldest')>Mulai Terlama</option>
+            </select>
+        </div>
+
+        <div class="form-group" style="min-width:auto;">
+            <button type="submit" class="btn btn-primary">Terapkan</button>
+            <a href="{{ route('activities.index') }}" class="btn btn-secondary">Reset</a>
+        </div>
+    </form>
+
     <table>
         <thead>
             <tr>

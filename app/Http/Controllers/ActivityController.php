@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateActivityRequest;
 use App\Models\Activity;
 use App\Models\Category;
 use App\Services\ActivityService;
+use Illuminate\Http\Request;
 
 class ActivityController extends Controller
 {
@@ -17,11 +18,24 @@ class ActivityController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $activities = Activity::with('category')->latest()->paginate(10);
+        $activities = Activity::query()
+            ->with('category')
+            ->search($request->query('search'))
+            ->when($request->filled('category_id'), fn ($query) => $query->where('category_id', $request->query('category_id')))
+            ->when($request->filled('status'), fn ($query) => $query->where('status', $request->query('status')))
+            ->when(
+                $request->query('sort') === 'oldest',
+                fn ($query) => $query->oldest('start_at'),
+                fn ($query) => $query->latest('start_at'),
+            )
+            ->paginate(10)
+            ->withQueryString();
 
-        return view('activities.index', compact('activities'));
+        $categories = Category::all();
+
+        return view('activities.index', compact('activities', 'categories'));
     }
 
     /**
@@ -86,5 +100,29 @@ class ActivityController extends Controller
         return redirect()
             ->route('activities.index')
             ->with('success', 'Kegiatan berhasil dihapus.');
+    }
+
+    /**
+     * Publish the specified draft activity.
+     */
+    public function publish(Activity $activity)
+    {
+        $this->activityService->publish($activity);
+
+        return redirect()
+            ->route('activities.show', $activity)
+            ->with('success', 'Kegiatan berhasil dipublikasikan.');
+    }
+
+    /**
+     * Mark the specified published activity as completed.
+     */
+    public function complete(Activity $activity)
+    {
+        $this->activityService->complete($activity);
+
+        return redirect()
+            ->route('activities.show', $activity)
+            ->with('success', 'Kegiatan berhasil diselesaikan.');
     }
 }

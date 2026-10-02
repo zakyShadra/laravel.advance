@@ -26,6 +26,13 @@ class ActivityService
         $activity->delete();
     }
 
+    public function restore(Activity $activity): Activity
+    {
+        $activity->restore();
+
+        return $activity;
+    }
+
     public function publish(Activity $activity): Activity
     {
         if ($activity->status !== 'draft') {

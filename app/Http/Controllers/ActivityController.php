@@ -125,4 +125,29 @@ class ActivityController extends Controller
             ->route('activities.show', $activity)
             ->with('success', 'Kegiatan berhasil diselesaikan.');
     }
+
+    /**
+     * Display a listing of the soft-deleted activities.
+     */
+    public function trash()
+    {
+        $activities = Activity::onlyTrashed()
+            ->with('category')
+            ->latest('deleted_at')
+            ->paginate(10);
+
+        return view('activities.trash', compact('activities'));
+    }
+
+    /**
+     * Restore the specified soft-deleted activity.
+     */
+    public function restore(Activity $activity)
+    {
+        $this->activityService->restore($activity);
+
+        return redirect()
+            ->route('activities.trash')
+            ->with('success', 'Kegiatan berhasil dikembalikan.');
+    }
 }

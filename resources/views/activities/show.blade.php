@@ -14,6 +14,7 @@
         <tr><th>Selesai</th><td>{{ $activity->end_at->format('d M Y H:i') }}</td></tr>
         <tr><th>Kapasitas</th><td>{{ $activity->capacity }}</td></tr>
         <tr><th>Status</th><td class="status-{{ $activity->status }}">{{ ucfirst($activity->status) }}</td></tr>
+        <tr><th>Pendaftar</th><td>{{ $activity->registered_count }} / {{ $activity->capacity }}</td></tr>
     </table>
 
     <div style="margin-top: 1rem;">
@@ -37,4 +38,23 @@
 
         <a href="{{ route('activities.index') }}" class="btn btn-secondary">Kembali</a>
     </div>
+
+    @if ($activity->status === 'published')
+        <h2 style="margin-top: 2rem;">Daftar Kegiatan Ini</h2>
+        <form action="{{ route('activities.registrations.store', $activity) }}" method="POST" style="max-width: 400px;">
+            @csrf
+
+            <div class="form-group">
+                <label for="participant_name">Nama</label>
+                <input type="text" name="participant_name" id="participant_name" value="{{ old('participant_name') }}">
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" name="email" id="email" value="{{ old('email') }}">
+            </div>
+
+            <button type="submit" class="btn btn-primary">Daftar</button>
+        </form>
+    @endif
 @endsection

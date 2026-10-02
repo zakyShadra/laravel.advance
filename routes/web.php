@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\RegistrationController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -14,3 +15,4 @@ Route::patch('activities/{activity}/complete', [ActivityController::class, 'comp
 Route::get('activities-trash', [ActivityController::class, 'trash'])->name('activities.trash');
 Route::patch('activities-trash/{activity}/restore', [ActivityController::class, 'restore'])->name('activities.restore')->withTrashed();
 Route::resource('categories', CategoryController::class)->only(['index', 'destroy']);
+Route::post('activities/{activity}/registrations', [RegistrationController::class, 'store'])->name('activities.registrations.store');

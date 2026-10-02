@@ -5,6 +5,10 @@
 @section('content')
     <h1>{{ $activity->title }}</h1>
 
+    @if ($activity->poster_path)
+        <img src="{{ Storage::url($activity->poster_path) }}" alt="Poster {{ $activity->title }}" style="max-width: 300px; display: block; margin-bottom: 1rem;">
+    @endif
+
     <table>
         <tr><th>Kode</th><td>{{ $activity->code }}</td></tr>
         <tr><th>Kategori</th><td>{{ $activity->category->name }}</td></tr>

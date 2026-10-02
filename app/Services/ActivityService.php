@@ -3,6 +3,8 @@
 namespace App\Services;
 
 use App\Models\Activity;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
 
 class ActivityService
@@ -11,11 +13,27 @@ class ActivityService
     {
         $data['status'] = 'draft';
 
+        if (($data['poster'] ?? null) instanceof UploadedFile) {
+            $data['poster_path'] = $data['poster']->store('posters', 'public');
+        }
+        unset($data['poster']);
+
         return Activity::create($data);
     }
 
     public function update(Activity $activity, array $data): Activity
     {
+        if (($data['poster'] ?? null) instanceof UploadedFile) {
+            $oldPosterPath = $activity->poster_path;
+
+            $data['poster_path'] = $data['poster']->store('posters', 'public');
+
+            if ($oldPosterPath) {
+                Storage::disk('public')->delete($oldPosterPath);
+            }
+        }
+        unset($data['poster']);
+
         $activity->update($data);
 
         return $activity;

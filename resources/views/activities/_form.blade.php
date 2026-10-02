@@ -44,3 +44,13 @@
     <label for="capacity">Kapasitas</label>
     <input type="number" name="capacity" id="capacity" min="1" max="500" value="{{ old('capacity', $activity->capacity ?? '') }}">
 </div>
+
+<div class="form-group">
+    <label for="poster">Poster (opsional, maks 2 MB)</label>
+    @if (isset($activity) && $activity->poster_path)
+        <div style="margin-bottom: .5rem;">
+            <img src="{{ Storage::url($activity->poster_path) }}" alt="Poster saat ini" style="max-width: 200px; display: block;">
+        </div>
+    @endif
+    <input type="file" name="poster" id="poster" accept="image/*">
+</div>

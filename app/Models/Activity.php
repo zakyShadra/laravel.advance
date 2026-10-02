@@ -22,6 +22,7 @@ class Activity extends Model
         'end_at',
         'capacity',
         'status',
+        'poster_path',
     ];
 
     protected $casts = [
